@@ -2,16 +2,19 @@ package main
 
 import (
     "strings"
-    "fmt"
     "io/ioutil"
     "net/http"
 )
 
 func main() {
-    url := "https://api.uptimerobot.com/v2/getMonitors"
-    fmt.Println("URL:>", url)
+    http.HandleFunc("/", uptime)
+    http.ListenAndServe(":8080", nil)
+}
 
-    r := strings.NewReader("api_key=xxxxx")
+func uptime(w http.ResponseWriter, h *http.Request) {
+    url := "https://api.uptimerobot.com/v2/getMonitors"
+
+    r := strings.NewReader("api_key=xxxx")
     req, err := http.NewRequest("POST", url, r)
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -23,8 +26,6 @@ func main() {
     }
     defer resp.Body.Close()
 
-    fmt.Println("response Status:", resp.Status)
-    fmt.Println("response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    w.Write([]byte(body))
 }
