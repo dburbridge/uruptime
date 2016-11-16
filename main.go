@@ -55,11 +55,10 @@ func query(Utrange string) (Utdata, error){
     if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
         return Utdata{}, err
     }
-    }
-
+	
     return d, nil
 }
-}
+
 
 type Utdata struct {
   Monitors []struct {
