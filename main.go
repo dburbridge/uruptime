@@ -10,7 +10,14 @@ func main() {
     http.HandleFunc("/hello", hello)
 
     http.HandleFunc("/uptime/", func(w http.ResponseWriter, u *http.Request) {
-        Utrange := strings.SplitN(u.URL.Path, "/", 3)[2]
+        UtDates := strings.SplitN(u.URL.Path, "/", 3)[2]
+		UtFrom := strings.SplitN(UtDates, "_", 2)[0]
+		UtTo := strings.SplitN(UtDates, "_", 2)[1]
+		t1, _ := time.Parse("20060102", UtFrom)
+		t2, _ := time.Parse("20060102", UtTo)
+		r1 := t1.Unix()
+		r2 := t2.Unix()
+		Utrange := strings.NewReader(r1 +"_" + r2)
 
         data, err := query(Utrange)
         if err != nil {
@@ -51,6 +58,7 @@ func query(Utrange string) (Utdata, error){
     }
 
     return d, nil
+}
 }
 
 type Utdata struct {
