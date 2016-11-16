@@ -40,7 +40,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func query(Utrange string) (Utdata, error){
     url := "https://api.uptimerobot.com/v2/getMonitors"
-    r := strings.NewReader("api_key=u358700-78df329c6f011be0fd46e615&custom_uptime_ranges=" + Utrange)
+    r := strings.NewReader("api_key=xxxx5&custom_uptime_ranges=" + Utrange)
     req, err := http.NewRequest("POST", url, r)
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
