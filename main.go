@@ -4,6 +4,8 @@ import (
     "strings"
     "encoding/json"
     "net/http"
+    "time"
+    "strconv"
 )
 
 func main() {
@@ -11,13 +13,13 @@ func main() {
 
     http.HandleFunc("/uptime/", func(w http.ResponseWriter, u *http.Request) {
         UtDates := strings.SplitN(u.URL.Path, "/", 3)[2]
-		UtFrom := strings.SplitN(UtDates, "_", 2)[0]
-		UtTo := strings.SplitN(UtDates, "_", 2)[1]
-		t1, _ := time.Parse("20060102", UtFrom)
-		t2, _ := time.Parse("20060102", UtTo)
-		r1 := t1.Unix()
-		r2 := t2.Unix()
-		Utrange := strings.NewReader(r1 +"_" + r2)
+                UtFrom := strings.SplitN(UtDates, "_", 2)[0]
+                UtTo := strings.SplitN(UtDates, "_", 2)[1]
+                t1, _ := time.Parse("20060102", UtFrom)
+                t2, _ := time.Parse("20060102", UtTo)
+                r1 := strconv.FormatInt(t1.Unix(), 10)
+                r2 := strconv.FormatInt(t2.Unix(), 10)
+                Utrange := (r1 + "_" + r2)
 
         data, err := query(Utrange)
         if err != nil {
@@ -38,7 +40,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func query(Utrange string) (Utdata, error){
     url := "https://api.uptimerobot.com/v2/getMonitors"
-    r := strings.NewReader("api_key=xxxx&custom_uptime_ranges=" + Utrange)
+    r := strings.NewReader("api_key=u358700-78df329c6f011be0fd46e615&custom_uptime_ranges=" + Utrange)
     req, err := http.NewRequest("POST", url, r)
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -55,7 +57,7 @@ func query(Utrange string) (Utdata, error){
     if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
         return Utdata{}, err
     }
-	
+
     return d, nil
 }
 
@@ -66,3 +68,4 @@ type Utdata struct {
     Uptime string `json:"custom_uptime_ranges"`
         } `json:"monitors"`
 }
+
