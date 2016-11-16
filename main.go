@@ -2,19 +2,36 @@ package main
 
 import (
     "strings"
-    "io/ioutil"
+    "encoding/json"
     "net/http"
 )
 
 func main() {
-    http.HandleFunc("/", uptime)
+    http.HandleFunc("/hello", hello)
+
+    http.HandleFunc("/uptime/", func(w http.ResponseWriter, u *http.Request) {
+        Utrange := strings.SplitN(u.URL.Path, "/", 3)[2]
+
+        data, err := query(Utrange)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+                w.Header().Set("Content-Type", "application/json; charset=utf-8")
+        json.NewEncoder(w).Encode(data)
+        w.Write([]byte(Utrange))
+    })
+
     http.ListenAndServe(":8080", nil)
 }
 
-func uptime(w http.ResponseWriter, h *http.Request) {
-    url := "https://api.uptimerobot.com/v2/getMonitors"
+func hello(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("hello!"))
+}
 
-    r := strings.NewReader("api_key=xxxx")
+func query(Utrange string) (Utdata, error){
+    url := "https://api.uptimerobot.com/v2/getMonitors"
+    r := strings.NewReader("api_key=xxxx&custom_uptime_ranges=" + Utrange)
     req, err := http.NewRequest("POST", url, r)
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -22,10 +39,23 @@ func uptime(w http.ResponseWriter, h *http.Request) {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+       return Utdata{}, err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    w.Write([]byte(body))
+    var d Utdata
+
+    if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
+        return Utdata{}, err
+    }
+    }
+
+    return d, nil
+}
+
+type Utdata struct {
+  Monitors []struct {
+    Friendly_name string `json:"friendly_name"`
+    Uptime string `json:"custom_uptime_ranges"`
+        } `json:"monitors"`
 }
