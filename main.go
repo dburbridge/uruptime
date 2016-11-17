@@ -6,6 +6,7 @@ import (
     "net/http"
     "time"
     "strconv"
+    "os"
 )
 
 func main() {
@@ -44,7 +45,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func query(Utrange string) (Utdata, error){
     url := "https://api.uptimerobot.com/v2/getMonitors"
-    r := strings.NewReader("api_key=xxxx5&custom_uptime_ranges=" + Utrange)
+    r := strings.NewReader("api_key=" + os.Getenv("API_KEY") + "&custom_uptime_ranges=" + Utrange)
     req, err := http.NewRequest("POST", url, r)
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
