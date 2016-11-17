@@ -13,6 +13,10 @@ func main() {
 
     http.HandleFunc("/uptime/", func(w http.ResponseWriter, u *http.Request) {
         UtDates := strings.SplitN(u.URL.Path, "/", 3)[2]
+                if len(UtDates) !=17 {
+                    w.Write([]byte("please include dates in the url path"))
+                    return
+                }
                 UtFrom := strings.SplitN(UtDates, "_", 2)[0]
                 UtTo := strings.SplitN(UtDates, "_", 2)[1]
                 t1, _ := time.Parse("20060102", UtFrom)
