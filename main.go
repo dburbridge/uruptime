@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-    http.HandleFunc("/hello", hello)
+    http.HandleFunc("/", hello)
 
     http.HandleFunc("/uptime/", func(w http.ResponseWriter, u *http.Request) {
         UtDates := strings.SplitN(u.URL.Path, "/", 3)[2]
@@ -26,16 +26,16 @@ func main() {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
-                w.Header().Set("Content-Type", "application/json; charset=utf-8")
-        json.NewEncoder(w).Encode(data)
-        w.Write([]byte(Utrange))
+                for _, monitor := range data.Monitors {
+                    w.Write([]byte(monitor.Friendly_name + " : " + monitor.Uptime + "\n"))
+                }
     })
 
     http.ListenAndServe(":8080", nil)
 }
 
 func hello(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("hello!"))
+    w.Write([]byte("Enter /uptime/yyyymmdd_YYYYMMDD where yyyymmdd is the start date and YYYYMMDD is the end date in the address bar.\n For example /uptime/20161001_20161101 to get the uptime values for October 2016"))
 }
 
 func query(Utrange string) (Utdata, error){
