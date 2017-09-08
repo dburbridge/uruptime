@@ -56,7 +56,7 @@ func main() {
             return
         }
                 for _, monitor := range data.Monitors {
-                    w.Write([]byte(monitor.Friendly_name + " : " + monitor.Uptime + "\n"))
+                    w.Write([]byte(monitor.Friendly_name + " : " + monitor.logs + "\n"))
                 }
     })
 
