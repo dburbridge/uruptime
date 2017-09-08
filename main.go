@@ -48,7 +48,7 @@ func main() {
                 t2, _ := time.Parse("20060102", UtTo)
                 r1 := strconv.FormatInt(t1.Unix(), 10)
                 r2 := strconv.FormatInt(t2.Unix(), 10)
-                Utout := ("&logs_start_date="r1 + "&logs_end_date=" + r2)
+                Utout := ("&logs_start_date="+ r1 + "&logs_end_date=" + r2)
 
         data, err := outages(Utout)
         if err != nil {
