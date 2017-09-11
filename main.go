@@ -128,7 +128,7 @@ type Utdata struct {
       Logs []struct {
                 Type int `json:"type"`
                 Duration int `json:"duration"`
-                LogDateTime int `json:"datetime"`
+                LogDateTime int64 `json:"datetime"`
             } `json:"logs"`
         } `json:"monitors"`
 }
