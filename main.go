@@ -60,7 +60,7 @@ func main() {
                         if log.Type == 1 {
                             t := strconv.Itoa(log.Duration)
                             w.Write([]byte(monitor.Friendly_name + " : " + t + "\n"))
-                            return
+                            
                         }
                     }
                 }
