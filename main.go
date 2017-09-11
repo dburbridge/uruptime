@@ -118,7 +118,10 @@ type Utdata struct {
   Monitors []struct {
     Friendly_name string `json:"friendly_name"`
     Uptime string `json:"custom_uptime_ranges"`
-    Logs string `json:"logs"`
+      Logs []struct {
+                Type int `json:"type"`
+                Duration int `json:"duration"
+            } `json:"logs"`
         } `json:"monitors"`
 }
 
