@@ -56,7 +56,7 @@ func main() {
             return
         }
                 for _, monitor := range data.Monitors {
-                    w.Write([]byte(monitor.Friendly_name + " : " + monitor.logs + "\n"))
+                    w.Write([]byte(monitor.Friendly_name + " : " + monitor.Logs + "\n"))
                 }
     })
 
@@ -118,6 +118,7 @@ type Utdata struct {
   Monitors []struct {
     Friendly_name string `json:"friendly_name"`
     Uptime string `json:"custom_uptime_ranges"`
+    Logs string `json:"logs"`
         } `json:"monitors"`
 }
 
