@@ -120,7 +120,7 @@ type Utdata struct {
     Uptime string `json:"custom_uptime_ranges"`
       Logs []struct {
                 Type int `json:"type"`
-                Duration int `json:"duration"
+                Duration int `json:"duration"`
             } `json:"logs"`
         } `json:"monitors"`
 }
