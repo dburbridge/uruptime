@@ -55,12 +55,13 @@ func main() {
             http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
+                w.Write([]byte("Customer/Check,Date and Time, Duration of Outage in Seconds"))
                 for _, monitor := range data.Monitors {
                     for _, log := range monitor.Logs {
                         if log.Type == 1 {
                             t := strconv.Itoa(log.Duration)
                             tm := time.Unix(log.LogDateTime, 0)
-                            w.Write([]byte(monitor.Friendly_name + " : " + tm.String() + " : "+ t + "\n"))
+                            w.Write([]byte(monitor.Friendly_name + "," + tm.String() + ","+ t + "\n"))
                             
                         }
                     }
