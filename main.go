@@ -61,7 +61,7 @@ func main() {
                             t := strconv.Itoa(log.Duration)
                             i, _ := strconv.ParseInt(log.LogsDateTime, 10, 64)
                             tm := time.Unix(i, 0)
-                            w.Write([]byte(monitor.Friendly_name + " : " tm + " : "+ t + "\n"))
+                            w.Write([]byte(monitor.Friendly_name + " : " + tm + " : "+ t + "\n"))
                             
                         }
                     }
