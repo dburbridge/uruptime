@@ -57,7 +57,8 @@ func main() {
         }
                 for _, monitor := range data.Monitors {
                     for _, log := range monitor.Logs {
-                    w.Write([]byte(monitor.Friendly_name + " : " + log.Duration + "\n"))
+                        t := strconv.Itoa(log.Duration)
+                        w.Write([]byte(monitor.Friendly_name + " : " + t + "\n"))
                     }
                 }
     })
