@@ -60,8 +60,8 @@ func main() {
                         if log.Type == 1 {
                             t := strconv.Itoa(log.Duration)
                             i, _ := strconv.ParseInt(log.LogDateTime, 10, 64)
-                            var tm string = time.Unix(i, 0)
-                            w.Write([]byte(monitor.Friendly_name + " : " + tm + " : "+ t + "\n"))
+                            tm := time.Unix(i, 0)
+                            w.Write([]byte(monitor.Friendly_name + " : " + tm.String() + " : "+ t + "\n"))
                             
                         }
                     }
