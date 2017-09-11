@@ -57,7 +57,7 @@ func main() {
         }
                 for _, monitor := range data.Monitors {
                     for _, log := range monitor.Logs {
-                    w.Write([]byte(monitor.Friendly_name + " : " + log.duration + "\n"))
+                    w.Write([]byte(monitor.Friendly_name + " : " + log.Duration + "\n"))
                     }
                 }
     })
